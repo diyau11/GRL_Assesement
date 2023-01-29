@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class DataSet {
+public:
+    double distance;
+    double time;
+    double speed;
+};
+
+class UserInput {
+public:
+    vector<DataSet> data;
+
+    void setInputs() {
+        for (int i = 0; i < 10; i++) {
+            DataSet input;
+            cout << "Enter distance for input " << i+1<<":\t";
+            cin >>input.distance;
+            cout << "Enter time for input " << i+1 <<":\t";
+            cin >>input.time;
+            data.push_back(input);
+        }
+    }
+};
+
+class Measure {
+public:
+    void calculateSpeed(UserInput& inputs) {
+        for (auto& input : inputs.data) {
+            input.speed = input.distance / input.time;
+        }
+    }
+};
+
+class ShowResults {
+public:
+    void printToFile(UserInput& inputs) {
+        ofstream file("output.csv");
+        file << "distance,time,speed" << std::endl;
+                for (auto input : inputs.data) {
+            file << input.distance << "," << input.time << "," << input.speed << endl;
+            cout << input.distance << "," << input.time << "," << input.speed << endl;
+        }
+        file.close();
+    }
+};
+
+int main() {
+    UserInput inputs;
+    inputs.setInputs();
+
+    Measure measure;
+    measure.calculateSpeed(inputs);
+
+    ShowResults results;
+    results.printToFile(inputs);
+
+    return 0;
+}
